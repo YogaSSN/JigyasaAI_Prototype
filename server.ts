@@ -1115,33 +1115,5 @@ function getFallbackPersonalizedMission(grade: string, subject: string, topic: s
   };
 }
 
-// Vite and static production assets handling
-async function startServer() {
-  if (process.env.NODE_ENV !== 'production') {
-    const viteModuleName = 'vite';
-    const { createServer: createViteServer } = await import(viteModuleName);
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
-    // SPA fallback handling
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
-  }
-
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[Jigyasa AI Core] Server running on http://0.0.0.0:${PORT}`);
-  });
-}
-
-// Only start the server locally, not when Vercel imports it
-if (!process.env.VERCEL) {
-  startServer();
-}
-
+// Export the app for Vercel
 export default app;
