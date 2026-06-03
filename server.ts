@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
-import { GoogleGenAI, Type } from '@google/genai';
 
 dotenv.config();
 
@@ -10,19 +9,10 @@ app.use(express.json({ limit: '10mb' }));
 
 const PORT = 3000;
 
-// Initialize GoogleGenAI
+// Initialize GoogleGenAI (Removed to prevent Vercel crashes in Mock Mode)
 const apiKey = process.env.GEMINI_API_KEY;
-let ai: GoogleGenAI | null = null;
-if (apiKey && apiKey !== 'MY_GEMINI_API_KEY') {
-  ai = new GoogleGenAI({
-    apiKey: apiKey,
-    httpOptions: {
-      headers: {
-        'User-Agent': 'aistudio-build',
-      },
-    },
-  });
-}
+let ai: any = null; // Always null in Mock Mode
+const Type = { OBJECT: 'object', STRING: 'string', ARRAY: 'array', INTEGER: 'integer' };
 
 // Check configuration endpoint
 app.get('/api/config', (req, res) => {
