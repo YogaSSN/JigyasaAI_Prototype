@@ -1118,7 +1118,8 @@ function getFallbackPersonalizedMission(grade: string, subject: string, topic: s
 // Vite and static production assets handling
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
-    const { createServer: createViteServer } = await import('vite');
+    const viteModuleName = 'vite';
+    const { createServer: createViteServer } = await import(viteModuleName);
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
